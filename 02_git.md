@@ -48,7 +48,7 @@ You can also connect your local Git to GiHub using the VSCode interface.
 4. You will be prompted to sign in to your GitHub account and authorize the connection.
 5. Once connected, you can push and pull changes directly from VSCode.
    
-**Exercise**: Connect your GitHub account to your local machine (in you case: your server account) using the method of your choice.
+**Exercise**: Connect your GitHub account to your local machine (in your case: your server account) using the method of your choice.
 
 ## Cloning a Repository
 
@@ -66,7 +66,7 @@ To fork a repository:
 1. Go to the repository page on GitHub or GitLab.
 2. Click the "Fork" button to create a copy of the repository under your own account.
 
-**Exercise**: Create a folk of this repository and clone it to your local machine.
+**Exercise**: Fork this repository on GitHub (use the "Fork" button) and clone your fork to your local machine using `git clone <your-fork-url>`.
 
 ## The Commit
 

@@ -52,7 +52,6 @@ It is also common to find the `-v`, `--version` or `-V` option to display the ve
 ```bash
 man ls
 ls --help
-ls -h
 ls -v
 ```
 
@@ -213,7 +212,7 @@ ls | grep pattern
 ## Exercise
 
 1. Create a directory called `my_directory` and navigate to it.
-2. Copy the file `/home/kress/E4XNT7.fasta` to `seq.fasta`
+2. Copy the file `/home/kress/Q13613.fasta` to `seq.fasta`
 3. What is the size of the file ?
 4. What type of file is ?
 5. How many lines does it have ?
@@ -257,7 +256,7 @@ grep -o 'OX=[0-9]*' seq.fasta | cut -d= -f2 | sort -n
 grep -o 'OX=[0-9]*' seq.fasta | cut -d= -f2 | sort | uniq -c
 # 12
 # sort must be numeric
-grep -o 'OX=[0-9]*' E.fasta | cut -d= -f2 |sort|uniq -c|sort -nr|head -1
+grep -o 'OX=[0-9]*' seq.fasta | cut -d= -f2 |sort|uniq -c|sort -nr|head -1
 # 13
 # use sort -u to remove non-adjacent duplicates
 grep -o 'OX=[0-9]*' seq.fasta | cut -d= -f2 | sort -u
@@ -268,4 +267,68 @@ grep -o '>[^ ]*' seq.fasta | cut -c2-
 # 16
 grep -o 'AC=[A-Z0-9]*' seq.fasta | cut -d= -f2
 cut -d ' ' -f1 seq.fasta | cut -c2-
+```
+
+## Useful additional tools and job control
+
+### Process and job management (useful on servers)
+
+```bash
+# run a command in background
+long_running_command &
+
+# bring job to foreground (job number from `jobs`)
+fg %1
+
+# run something that survives logout
+nohup my_long_task.sh &
+disown
+```
+
+### awk and xargs — powerful text-processing helpers
+
+```bash
+# print 3rd column
+awk '{print $3}' file.tsv
+
+# sum numbers in column 2
+awk '{sum += $2} END {print sum}' data.txt
+
+# use xargs to parallelize simple commands
+find . -name "*.gz" | xargs -n1 -P4 gunzip
+```
+
+### Compression and archives
+
+- A gzip file (.gz) is just a single file compressed to reduce its size.
+
+- A tar.gz file is a tar archive (a collection of multiple files and folders kept together) that is then compressed with gzip.
+  
+
+```bash
+# create a gzipped tar archive
+tar -czvf results.tar.gz /path/to/results
+
+# extract
+tar -xzvf results.tar.gz
+
+# gzip a single file
+gzip file.txt
+# gunzip to restore
+gunzip file.txt.gz
+```
+
+
+### Copying and synchronizing between machines (scp, rsync):
+
+```bash
+# copy file to remote host
+scp localfile.txt user@remote:/path/
+
+# sync a directory (efficient: only copies diffs)
+rsync -avh --progress /local/dir/ user@remote:/remote/dir/
+# -a : archive mode — copies directories recursively and preserves permissions, timestamps, links, etc.
+# -v : verbose — shows detailed output during the transfer.
+# -h : human-readable — displays file sizes in a readable format (KB, MB, GB).
+# --progress : shows the progress of each file being transferred.
 ```

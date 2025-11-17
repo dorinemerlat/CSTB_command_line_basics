@@ -176,3 +176,11 @@ To explore and browse packages available on Conda, you can visit: [Anaconda](htt
 - **Use isolated environments**: Always create a new environment for each project to avoid dependency conflicts.
 - **Define environments with `yml` files**: This makes it easier to share and replicate environments.
 - **Use Conda channels**: Conda channels are repositories that contain packages. The `default` is defaults, but you can add additional channels like `conda-forge` for a broader range of packages.
+
+### Additional tips
+
+- Use `mamba` (a faster reimplementation of the solver) when resolving complex environments: `mamba create -n env python=3.9 numpy` (mamba is drop-in replacement for many `conda` commands).
+- When exporting environments for reproducibility prefer:
+
+- If you mix `pip` and `conda` packages: prefer installing conda packages first, then `pip install` only the remaining packages.
+- Clean package caches to save disk space: `conda clean --all`.

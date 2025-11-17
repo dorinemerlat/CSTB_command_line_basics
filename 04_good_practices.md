@@ -80,14 +80,9 @@ You can also change multiple permissions at once. For example, if you want to ta
 chmod ugo-rwx xyz.txt
 ```
 
-The code above revokes all the read(r), write(w), and execute(x) permission from all user(u), group(g), and others(o) for the file xyz.txt which results in this. 
-
+The code above revokes all the read(r), write(w), and execute(x) permission from all user(u), group(g), and others(o) for the file xyz.txt.
 
 Example:
-
-```bash
-
-Changing permissions:
 
 ```bash
 chmod u+x file.sh
@@ -192,12 +187,11 @@ Special variables include:
 Replaces a variable with its value.
 
 ```bash
-name="Louise"
+name="Gaspard"
 echo "Hello, $name!"
 ```
 
-Here, `$name` is expanded to Louise.
-
+Here, `$name` is expanded to "Gaspard".
 
 #### Command Expansion
 
@@ -386,7 +380,7 @@ Here, "words" are separated by a newline, which means bash considers the whole v
 In Bash, you can use **list** (or **array**). It is a data structure used to store multiple values. Arrays allow you to group related data together and access each value using an index. In Bash, arrays are zero-indexed, meaning the first element has an index of 0. 
 
 ```bash
-names=("Aaron Maxwell" "Wayne Gretzky" "David Beckham")
+names=("Monkey D. Luffy" "Roronoa Zoro" "Tony Tony Chopper")
 echo "${names[@]}"
 ```
 
@@ -398,9 +392,9 @@ Explanation:
 ```bash
 #!/bin/bash
 names=(
-"Aaron Maxwell"
-"Wayne Gretzky"
-"David Beckham"
+"Monkey D. Luffy"
+"Roronoa Zoro"
+"Tony Tony Chopper"
 )
 
 echo "With default IFS value..."
@@ -420,17 +414,19 @@ Output:
 
 ```
 With default IFS value...
-Aaron
-Maxwell
-Wayne
-Gretzky
-David
-Beckham
+Monkey
+D.
+Luffy
+Roronoa
+Zoro
+Tony
+Tony
+Chopper
 
 With strict-mode IFS value...
-Aaron Maxwell
-Wayne Gretzky
-David Beckham
+Monkey D. Luffy
+Roronoa Zoro
+Tony Tony Chopper
 ```
 
 `${names[@]}` is used to refer to all elements of an array. It expands to each element of the array as a separate value.
@@ -464,7 +460,7 @@ The shebang (`#!`) is the first line in a script that specifies the interpreter 
 Example:
 
 ```bash
-#!/bin/bash
+#!/bin/python3
 ```
 
 - `#!` is the shebang.
@@ -516,6 +512,35 @@ hello Gaspard
 ### Using virtual environments
 
 See next lesson.
+
+## Debugging, options parsing and linters (optional)
+
+Small additions to make scripts robust and maintainable:
+
+- Use `getopts` to parse options in bash scripts instead of manual shifts. Example:
+
+```bash
+while getopts ":hf:o:" opt; do
+    case $opt in
+        h) echo "Usage: $0 -f file -o out"; exit 0 ;;
+        f) file="$OPTARG" ;;
+        o) out="$OPTARG" ;;
+        \?) echo "Invalid option: -$OPTARG" >&2; exit 1 ;;
+    esac
+done
+```
+
+- Use `shellcheck` (installable via package manager) to get automated suggestions for common shell pitfalls.
+
+
+## Containers (note)
+
+For reproducible environments you may use containers. On personal machines Docker is common; on HPC clusters use Apptainer (formerly Singularity).
+
+- Docker: `docker pull image:tag` and `docker run --rm -it image:tag bash` (not available in all nodes of LBGI server).
+- Apptainer/Singularity: you can directly pull from Docker Hub (https://hub.docker.com/) without a running Docker daemon: `apptainer pull docker://nanozoo/cdhit:4.8.1--c697693` which creates a `.sif` file you can run with `apptainer exec ubuntu_20.04.sif bash`.
+
+See the file `05_containers_and_vscode.md` in this folder for concrete commands and examples (Docker Hub, Apptainer/Singularity usage and recommendations).
 
 ## References
 
